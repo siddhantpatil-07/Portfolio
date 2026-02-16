@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { Lock, Trash2, X, MessageSquare, CheckCircle, ChevronRight } from 'lucide-react';
+import { Lock, Trash2, X, MessageSquare, CheckCircle, ChevronRight, Download, User } from 'lucide-react';
 
 /**
  * Professional Personal Portfolio Website: Siddhant Patil
- * Features: About, Skills, Projects, Contact, Admin Dashboard
- * Updated: Profile image removed, standard CSS used.
+ * Features: About, Skills, Projects, Contact, Admin Dashboard, Resume Download
  */
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // Admin & Message States (Local State)
+  // Admin & Message States
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [password, setPassword] = useState('');
@@ -68,6 +67,32 @@ const App = () => {
     }
   };
 
+  const handleDownloadResume = () => {
+    // Creating a professional text-based summary as a downloadable file
+    const resumeContent = `
+SIDDHANT PATIL
+Web Developer
+
+EXPERTISE:
+${skills.join(', ')}
+
+PROJECTS:
+${projects.map(p => `- ${p.title}: ${p.description}`).join('\n')}
+
+CONTACT:
+Email: siddhant.patil@example.com
+Portfolio: My Personal Site
+    `;
+    const blob = new Blob([resumeContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Siddhant_Patil_Resume.txt');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleContactSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -81,7 +106,6 @@ const App = () => {
       timestamp: new Date()
     };
 
-    // Simulate network delay
     setTimeout(() => {
       setMessages([newMessage, ...messages]);
       setSubmitSuccess(true);
@@ -170,6 +194,7 @@ const App = () => {
         .btn-secondary {
           background: #f3f4f6; color: #1a1a1a; padding: 1rem 2rem;
           border-radius: 8px; border: none; font-weight: 600; cursor: pointer;
+          display: inline-flex; align-items: center; gap: 0.5rem;
         }
 
         section { padding: 80px 10%; max-width: 1400px; margin: 0 auto; }
@@ -193,7 +218,16 @@ const App = () => {
         .project-info { padding: 2rem; }
         .tag { font-size: 0.75rem; background: #dbeafe; padding: 0.35rem 0.85rem; border-radius: 20px; color: #2563EB; font-weight: 600; margin-right: 8px; }
 
-        .contact-container { max-width: 650px; background: #f9fafb; padding: 3rem; border-radius: 24px; }
+        /* Multi-column Layout for About/Contact */
+        .bottom-sections {
+          display: flex;
+          gap: 4rem;
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+        .about-content { flex: 1; min-width: 300px; }
+        .contact-container { flex: 1; min-width: 300px; background: #f9fafb; padding: 3rem; border-radius: 24px; }
+        
         input, textarea { width: 100%; padding: 1.1rem; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 1rem; font-family: inherit; margin-bottom: 1.5rem; }
         
         .admin-overlay {
@@ -223,6 +257,7 @@ const App = () => {
           .hero-title { font-size: 2.8rem; }
           .hero { text-align: center; min-height: 60vh; }
           section { padding: 60px 5%; }
+          .bottom-sections { gap: 2rem; }
         }
       `}</style>
 
@@ -239,7 +274,7 @@ const App = () => {
             <li><button className={activeSection === 'home' ? 'active' : ''} onClick={() => handleNavClick('home')}>Home</button></li>
             <li><button className={activeSection === 'projects' ? 'active' : ''} onClick={() => handleNavClick('projects')}>Projects</button></li>
             <li><button className={activeSection === 'skills' ? 'active' : ''} onClick={() => handleNavClick('skills')}>Skills</button></li>
-            <li><button className={activeSection === 'contact' ? 'active' : ''} onClick={() => handleNavClick('contact')}>Contact</button></li>
+            <li><button className={activeSection === 'about' ? 'active' : ''} onClick={() => handleNavClick('about')}>About & Contact</button></li>
           </ul>
         </nav>
       </header>
@@ -259,8 +294,10 @@ const App = () => {
               seamless user experiences and clean code architecture.
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <button className="btn-primary" onClick={() => handleNavClick('contact')}>Get In Touch</button>
-              <button className="btn-secondary" onClick={() => handleNavClick('projects')}>View Work</button>
+              <button className="btn-primary" onClick={() => handleNavClick('about')}>Get In Touch</button>
+              <button className="btn-secondary" onClick={handleDownloadResume}>
+                <Download size={18} /> Download CV
+              </button>
             </div>
           </div>
         </section>
@@ -292,26 +329,50 @@ const App = () => {
           </div>
         </section>
 
-        {/* Contact Section */}
-        <section id="contact">
-          <h2 className="section-title">Contact Me</h2>
-          <div className="contact-container">
-            {submitSuccess ? (
-              <div style={{ textAlign: 'center', padding: '2rem' }}>
-                <CheckCircle size={48} color="#10b981" style={{ marginBottom: '1rem' }} />
-                <h3>Message Sent!</h3>
-                <p>I'll get back to you shortly.</p>
+        {/* Combined About & Contact Section */}
+        <section id="about">
+          <div className="bottom-sections">
+            <div className="about-content">
+              <h2 className="section-title">About Me</h2>
+              <div style={{ paddingRight: '20px' }}>
+                <p style={{ fontSize: '1.1rem', color: '#444', marginBottom: '1.5rem' }}>
+                  I am a passionate Web Developer with a strong foundation in modern frontend technologies. My journey in tech is driven by a desire to solve complex problems through elegant code and intuitive design.
+                </p>
+                <p style={{ fontSize: '1.1rem', color: '#444', marginBottom: '1.5rem' }}>
+                  With expertise in <strong>React, JavaScript, and Responsive Layouts</strong>, I enjoy transforming ideas into fully functional digital products. I focus on writing maintainable, scalable code while ensuring the highest level of performance.
+                </p>
+                <div style={{ display: 'flex', gap: '1.5rem', marginTop: '2rem' }}>
+                    <div>
+                        <p style={{ fontWeight: '800', color: '#2563EB', fontSize: '1.5rem' }}>2+</p>
+                        <p style={{ fontSize: '0.9rem', color: '#666' }}>Years Experience</p>
+                    </div>
+                    <div>
+                        <p style={{ fontWeight: '800', color: '#2563EB', fontSize: '1.5rem' }}>20+</p>
+                        <p style={{ fontSize: '0.9rem', color: '#666' }}>Projects Completed</p>
+                    </div>
+                </div>
               </div>
-            ) : (
-              <form onSubmit={handleContactSubmit}>
-                <input type="text" name="name" placeholder="Name" required />
-                <input type="email" name="email" placeholder="Email" required />
-                <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
-                <button type="submit" className="btn-primary" style={{ width: '100%' }} disabled={isSubmitting}>
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
-            )}
+            </div>
+
+            <div className="contact-container">
+              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Send Message</h3>
+              {submitSuccess ? (
+                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                  <CheckCircle size={48} color="#10b981" style={{ marginBottom: '1rem' }} />
+                  <h3>Message Sent!</h3>
+                  <p>I'll get back to you shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit}>
+                  <input type="text" name="name" placeholder="Name" required />
+                  <input type="email" name="email" placeholder="Email" required />
+                  <textarea name="message" rows="5" placeholder="Your message..." required></textarea>
+                  <button type="submit" className="btn-primary" style={{ width: '100%' }} disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </section>
       </main>
