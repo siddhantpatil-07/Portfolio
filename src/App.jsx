@@ -4,7 +4,7 @@ import { Lock, Trash2, X, MessageSquare, CheckCircle, ChevronRight } from 'lucid
 /**
  * Professional Personal Portfolio Website: Siddhant Patil
  * Features: About, Skills, Projects, Contact, Admin Dashboard
- * Note: This version uses Local State instead of Firebase for easy local execution.
+ * Updated: Profile image removed, standard CSS used.
  */
 
 const App = () => {
@@ -148,14 +148,16 @@ const App = () => {
         nav button:hover, nav button.active { color: #2563EB; }
 
         .hero {
-          min-height: 90vh;
+          min-height: 80vh;
           display: flex;
           align-items: center;
           padding: 5% 10%;
-          gap: 4rem;
           margin-top: 60px;
+          max-width: 1200px;
+          margin-left: auto;
+          margin-right: auto;
         }
-        .hero-title { font-size: 4rem; line-height: 1.1; font-weight: 800; margin-bottom: 2rem; }
+        .hero-title { font-size: 4.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 2rem; }
         .hero-title .highlight { color: #2563EB; display: block; }
 
         .btn-primary {
@@ -170,15 +172,7 @@ const App = () => {
           border-radius: 8px; border: none; font-weight: 600; cursor: pointer;
         }
 
-        .profile-circle {
-          width: 380px; height: 380px; border-radius: 50%;
-          background: #eff6ff; border: 1px solid #2563EB;
-          display: flex; justify-content: center; align-items: center;
-          padding: 12px;
-        }
-        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-
-        section { padding: 80px 10%; }
+        section { padding: 80px 10%; max-width: 1400px; margin: 0 auto; }
         .section-title { font-size: 2.5rem; margin-bottom: 3.5rem; position: relative; }
         .section-title::after {
           content: ''; position: absolute; bottom: -12px; left: 0; width: 60px; height: 5px;
@@ -227,8 +221,7 @@ const App = () => {
           }
           nav.open ul { flex-direction: column; gap: 1rem; }
           .hero-title { font-size: 2.8rem; }
-          .hero { flex-direction: column-reverse; text-align: center; }
-          .profile-circle { width: 280px; height: 280px; }
+          .hero { text-align: center; min-height: 60vh; }
           section { padding: 60px 5%; }
         }
       `}</style>
@@ -246,7 +239,6 @@ const App = () => {
             <li><button className={activeSection === 'home' ? 'active' : ''} onClick={() => handleNavClick('home')}>Home</button></li>
             <li><button className={activeSection === 'projects' ? 'active' : ''} onClick={() => handleNavClick('projects')}>Projects</button></li>
             <li><button className={activeSection === 'skills' ? 'active' : ''} onClick={() => handleNavClick('skills')}>Skills</button></li>
-            <li><button className={activeSection === 'about' ? 'active' : ''} onClick={() => handleNavClick('about')}>About</button></li>
             <li><button className={activeSection === 'contact' ? 'active' : ''} onClick={() => handleNavClick('contact')}>Contact</button></li>
           </ul>
         </nav>
@@ -256,21 +248,20 @@ const App = () => {
         {/* Hero Section */}
         <section id="home" className="hero">
           <div className="hero-content">
-            <p className="hero-tagline">Hey, I'm Siddhant Patil 👋🏻</p>
+            <p className="hero-tagline" style={{ color: '#2563EB', fontWeight: '600', marginBottom: '1rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
+              Web Developer
+            </p>
             <h1 className="hero-title">
-              <span className="highlight">Web</span> Developer
+              Hello, I'm <span className="highlight">Siddhant Patil</span>
             </h1>
-            <p style={{ marginBottom: '2.5rem', fontSize: '1.2rem', color: '#444', maxWidth: '600px' }}>
+            <p style={{ marginBottom: '2.5rem', fontSize: '1.4rem', color: '#444', maxWidth: '800px' }}>
               I build modern, high-performance web applications with a focus on 
               seamless user experiences and clean code architecture.
             </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <button className="btn-primary" onClick={() => handleNavClick('contact')}>Get In Touch</button>
               <button className="btn-secondary" onClick={() => handleNavClick('projects')}>View Work</button>
             </div>
-          </div>
-          <div className="profile-circle">
-            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop" alt="Profile" className="profile-img" />
           </div>
         </section>
 
@@ -327,9 +318,9 @@ const App = () => {
 
       <footer style={{ padding: '4rem 10%', textAlign: 'center', borderTop: '1px solid #eee' }}>
         <p style={{ fontWeight: '800', fontSize: '1.2rem' }}>Siddhant Patil</p>
-        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '2rem' }}>
-          <a href="#" style={{ color: '#2563EB', textDecoration: 'none' }}>LinkedIn</a>
-          <a href="#" style={{ color: '#2563EB', textDecoration: 'none' }}>GitHub</a>
+        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+          <a href="#" style={{ color: '#2563EB', textDecoration: 'none', fontWeight: '500' }}>LinkedIn</a>
+          <a href="#" style={{ color: '#2563EB', textDecoration: 'none', fontWeight: '500' }}>GitHub</a>
           <button 
             onClick={() => setShowAdminLogin(true)}
             style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
